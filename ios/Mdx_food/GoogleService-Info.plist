@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>27273793549-d0d78sqt9g7a6p4kk6pur2cb6hglc33t.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.27273793549-d0d78sqt9g7a6p4kk6pur2cb6hglc33t</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>27273793549-cli7odt403nla7fmth68kire76ttlnn6.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCh3z-HtT0cEUDht29fu7-MI7PyrB8MSyM</string>
+	<key>GCM_SENDER_ID</key>
+	<string>27273793549</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>org.reactjs.native.example.Mdx-food</string>
+	<key>PROJECT_ID</key>
+	<string>mdx-food-app</string>
+	<key>STORAGE_BUCKET</key>
+	<string>mdx-food-app.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:27273793549:ios:8aa7da04f1dd0508b08544</string>
+</dict>
+</plist>

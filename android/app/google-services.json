@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "27273793549",
+    "project_id": "mdx-food-app",
+    "storage_bucket": "mdx-food-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:27273793549:android:42297b010c6cdb78b08544",
+        "android_client_info": {
+          "package_name": "com.mdx_food"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "27273793549-cli7odt403nla7fmth68kire76ttlnn6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mdx_food",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "27273793549-pioep06c9kg5cv30s63b4o9r1g2s6hv5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1ngRvYOJWOZLVtUYZajXs-Pf8LOcBj2w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "27273793549-pioep06c9kg5cv30s63b4o9r1g2s6hv5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
