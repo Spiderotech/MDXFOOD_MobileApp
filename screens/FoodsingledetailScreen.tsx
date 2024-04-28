@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native'
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart, removeFromCart, selectCartItemsByRestaurantId,deleteCart } from '../slices/cartSlice';
 import { setRestaurant } from '../slices/restaurantSlice';
+import * as Icon from 'react-native-feather';
 
 const FoodsingledetailScreen = ({ route }) => {
 
@@ -18,9 +19,10 @@ const FoodsingledetailScreen = ({ route }) => {
     const totalItems = useSelector(state => selectCartItemsByRestaurantId(state, Id));
     const navigation = useNavigation()
 
+    
     const handleIncrease = () => {
         dispatch(setRestaurant(restaurant));
-        dispatch(addToCart({ restaurantId: Id, item: { ...fooddata } }));
+        dispatch(addToCart({ restaurantId: Id, item: { ...fooddata, extras: selectedExtras } }));
     };
 
     const handleDecrease = () => {
@@ -41,11 +43,9 @@ const FoodsingledetailScreen = ({ route }) => {
 
 
     const handleSelectExtra = (extra) => {
-        if (selectedExtras.find((selected) => selected._id === extra._id)) {
-            // If already selected, remove it from the selection
-            setSelectedExtras(selectedExtras.filter((selected) => selected._id !== extra._id));
+        if (selectedExtras.find((selected) => selected === extra)) {
+            setSelectedExtras(selectedExtras.filter((selected) => selected !== extra));
         } else {
-            // If not selected, add it to the selection
             setSelectedExtras([...selectedExtras, extra]);
         }
     };
@@ -54,7 +54,7 @@ const FoodsingledetailScreen = ({ route }) => {
 
         <View className=' h-screen'>
             <ScrollView>
-                <View className="relative">
+                <View className="relative ">
                     <Image className=" w-full h-60"
                         src={fooddata.image}
                     />
@@ -70,32 +70,39 @@ const FoodsingledetailScreen = ({ route }) => {
                 </View>
                 <View className=" bg-white w-full h-auto rounded-tl-3xl shadow -mt-12 p-3  ">
 
-                    <Text className="mt-1 ml-2 font-medium text-black text-2xl">{fooddata.name}</Text>
+                    <Text className="mt-1 ml-2  font-semibold text-black text-2xl">{fooddata.name}</Text>
 
-                    <Text className="mt-3 ml-2 text-md mb-2">{fooddata.description}</Text>
-                    <Text className="mt-3 ml-2 text-lg font-semibold mb-5">£ {fooddata.price}</Text>
+                    <Text className="mt-3 ml-2 text-md mb-2 font-semibold">{fooddata.description}</Text>
+                    
                     <View className="w-full    flex flex-row  ">
                         <View className='ml-2 mt-1'>
                             <ClockIcon size={20} color='red' />
 
                         </View>
-                        <Text className="mt-1 ml-2 text-md mb-2">{fooddata.preparationTime} Minutes(preparationTime )</Text>
+                        <Text className="mt-1 ml-2 text-md font-medium mb-2">{fooddata.preparationTime} Minutes (preparationTime )</Text>
 
                     </View>
+                    <Text className="mt-3 ml-2 text-xl font-semibold mb-5">£ {fooddata.price}</Text>
 
                 </View>
                 <ScrollView>
-                    <View className=" bg-white">
-                        <Text className="mt-1 font-medium text-start text-black text-xl ml-4">Extra items</Text>
+                    <View className=" bg-white h-60 ">
+                        <Text className="mt-1 font-medium text-start text-black text-xl mb-4 ml-4"> Add extras</Text>
+                        <View className=' p-5'>
                         {fooddata.extraItems.map((item, index) => (
-                            <TouchableOpacity
-                                key={index}
-                                className='flex-row items-center mt-5 mb-7 ml-5'
-                            >
-                                <Text style={{ fontSize: 16 }}>{item.name}</Text>
-                                <Text style={{ marginLeft: 20, fontSize: 16 }}>£{item.price}</Text>
-                            </TouchableOpacity>
-                        ))}
+                                <TouchableOpacity key={index} onPress={() => handleSelectExtra(item)} style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 8 ,padding:10}}>
+                                    <Text style={{ fontSize: 16 }}>
+                                        {item.name} - £{item.price}
+                                    </Text>
+                                    {selectedExtras.find(selectedExtra => selectedExtra._id === item._id) ?
+                                        <Icon.CheckSquare strokeWidth={2} height={24} width={24} stroke="green" /> :
+                                        <Icon.Square strokeWidth={2} height={24} width={24} stroke="grey" />
+                                    }
+                                </TouchableOpacity>
+                            ))}
+
+                        </View>
+                       
                     </View>
                 </ScrollView>
 
@@ -106,7 +113,7 @@ const FoodsingledetailScreen = ({ route }) => {
                         <MinusIcon size={30} color='red' />
                     </TouchableOpacity>
                     <Text className=" text-black  text-lg font-bold ml-6">{totalItems.filter(item => item._id === fooddata._id).length}</Text>
-                    <TouchableOpacity className="P-1 rounded-full bg-white ml-5  border border-red-600" onPress={handleIncrease}>
+                    <TouchableOpacity className="p-1 rounded-full bg-white ml-5  border border-red-600" onPress={handleIncrease}>
 
                         <PlusIcon size={30} color='red' />
 

@@ -3,12 +3,6 @@ import { SafeAreaView, Text, TextInput, TouchableOpacity, View } from 'react-nat
 import { ArrowLeftIcon, EyeIcon, EyeSlashIcon } from 'react-native-heroicons/solid';
 import { useNavigation } from '@react-navigation/native';
 import axios from "../Utils/user/axios"
-import {
-    GoogleSignin,
-    GoogleSigninButton,
-    statusCodes,
-} from '@react-native-google-signin/google-signin';
-import auth from '@react-native-firebase/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const EmailandpasswordScreen = () => {
     const navigation = useNavigation();
@@ -17,76 +11,8 @@ const EmailandpasswordScreen = () => {
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [emailExists, setEmailExists] = useState(false);
-    const [emailExistsgoogle, setEmailExistsgoogle] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
 
-   
-
-    
-    
-
-    useEffect(() => {
-        GoogleSignin.configure({
-            webClientId: "27273793549-pioep06c9kg5cv30s63b4o9r1g2s6hv5.apps.googleusercontent.com",
-            iosClientId: "27273793549-d0d78sqt9g7a6p4kk6pur2cb6hglc33t.apps.googleusercontent.com",
-
-        });
-
-
-    }, [])
-
-    async function onGoogleButtonPress() {
-        try {
-
-            await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
-
-            const { idToken } = await GoogleSignin.signIn();
-
-            const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-
-            const { user } = await auth().signInWithCredential(googleCredential);
-            console.log('User displayName:', user.displayName);
-            console.log('User email:', user.email);
-            try {
-
-                
-                    const fcmToken = await AsyncStorage.getItem('fcmToken');
-                    console.log(fcmToken, "Token fetched from AsyncStorage");
-               
-          
-
-                const email = user.email
-
-                const response = await axios.post('/googlelogin', { email: email,fcmtoken:fcmToken });
-
-                if (response.data.status === true) {
-
-                    await AsyncStorage.setItem('accessToken', response.data.accessToken);
-                    await AsyncStorage.setItem('userData', JSON.stringify(response.data.isuser));
-
-                    navigation.navigate('Home');
-
-
-                } else {
-
-                    setEmailError('Error login user');
-
-
-
-
-                }
-
-            } catch (error) {
-                console.error('Error creating user:', error);
-
-            }
-
-
-
-        } catch (error) {
-            console.error('Error signing in with Google:', error);
-        }
-    }
 
     const handleContinue = async () => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -104,7 +30,7 @@ const EmailandpasswordScreen = () => {
 
         if (!hasError && email.trim()) {
             try {
-               
+
 
                 const response = await axios.post('/verifyemail', { email: email });
                 console.log(response.data);
@@ -116,7 +42,9 @@ const EmailandpasswordScreen = () => {
                     setEmailExists(true);
                 } else if (exists) {
                     setEmailError('User created account using Google');
-                    setEmailExistsgoogle(true)
+                    setTimeout(() => {
+                        navigation.navigate('Auth');
+                    }, 2000);
 
                 } else {
                     navigation.navigate('Phone', { email: email });
@@ -154,13 +82,13 @@ const EmailandpasswordScreen = () => {
         if (!hasError) {
             try {
 
-               
-                    var fcmToken = await AsyncStorage.getItem('fcmToken');
-                    console.log(fcmToken, "Token fetched from AsyncStorage");
-               
 
-              
-                const response = await axios.post('/login', { email: email, password: password,fcmtoken:fcmToken });
+                var fcmToken = await AsyncStorage.getItem('fcmToken');
+                console.log(fcmToken, "Token fetched from AsyncStorage");
+
+
+
+                const response = await axios.post('/login', { email: email, password: password, fcmtoken: fcmToken });
                 console.log(response.data);
                 if (response.data.status === true) {
                     await AsyncStorage.setItem('accessToken', response.data.accessToken);
@@ -211,16 +139,7 @@ const EmailandpasswordScreen = () => {
                         />
                         {emailError ? <Text style={{ color: 'red', marginLeft: 10, marginBottom: 5 }}>{emailError}</Text> : null}
 
-                        {emailExistsgoogle && (
-                            <>
-                                <GoogleSigninButton
-                                    size={GoogleSigninButton.Size.Wide}
-                                    color={GoogleSigninButton.Color.Light}
-                                    onPress={() => onGoogleButtonPress().then(() => console.log('Signed in with Google!'))}
-                                    className='mt-3'
-                                />
-                            </>
-                        )}
+                        
                         {emailExists && (
                             <>
                                 <Text className=' text-gray-500 ml-4 text-base'>
@@ -258,7 +177,7 @@ const EmailandpasswordScreen = () => {
                     )}
 
                     {emailExists && (
-                        <TouchableOpacity className='flex items-end mb-5 mt-5' onPress={() => navigation.navigate('Emailverification',{useremail:email})}>
+                        <TouchableOpacity className='flex items-end mb-5 mt-5' onPress={() => navigation.navigate('Emailverification', { useremail: email })}>
                             <Text className='text-black text-base text-center'>
                                 Forgot password
                             </Text>

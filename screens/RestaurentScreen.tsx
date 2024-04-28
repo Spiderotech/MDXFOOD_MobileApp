@@ -72,7 +72,7 @@ export default function RestaurentScreen({ route }) {
             <View className=" bg-white w-full  h-auto rounded-tl-3xl rounded-br-3xl shadow -mt-12 p-3  ">
                 <View className="w-full h-10  mt-4 flex flex-row  ">
                     <View className="flex flex-row justify-center items-center">
-                        <Text className=" ml-2 text-xl">{restaurantData.name}</Text>
+                        <Text className=" ml-4 font-semibold text-2xl">{restaurantData.name}</Text>
 
 
                     </View>
@@ -80,19 +80,19 @@ export default function RestaurentScreen({ route }) {
 
                 </View>
                 <View className="w-full  mt-4 flex flex-row  ">
-                    <View className='ml-2 '>
+                    <View className='ml-2 mt-1 '>
                         <MapPinIcon size={20} color='red' />
 
                     </View>
-                    <Text className="mt-1 ml-2 font-medium text-gray-500">{restaurantData.location}</Text>
+                    <Text className=" ml-2 font-medium text-gray-500 text-xl">{restaurantData.location}</Text>
 
                 </View>
-                <View className="w-full    flex flex-row  ">
+                <View className="w-full mt-2   flex flex-row  ">
                     <View className='ml-2 mt-2'>
                         <ClockIcon size={20} color='red' />
 
                     </View>
-                    <Text className="mt-3 ml-2 text-xs mb-10">15-30 Minutes(preparationTime )</Text>
+                    <Text className="mt-2 ml-2 font-semibold text-md mb-10">15-30 Minutes(Preparation time )</Text>
 
                 </View>
 

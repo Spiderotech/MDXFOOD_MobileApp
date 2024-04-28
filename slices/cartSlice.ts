@@ -44,9 +44,34 @@ export const cartSlice = createSlice({
 export const { addToCart, removeFromCart, emptyCart, deleteCart } = cartSlice.actions;
 
 export const selectCartItemsByRestaurantId = (state, restaurantId) => state.cart.carts[restaurantId] || [];
+// export const selectCartTotalByRestaurantId = (state, restaurantId) => {
+//   const items = state.cart.carts[restaurantId] || [];
+//   return items.reduce((total, item) => total + item.price, 0);
+// };
 export const selectCartTotalByRestaurantId = (state, restaurantId) => {
   const items = state.cart.carts[restaurantId] || [];
-  return items.reduce((total, item) => total + item.price, 0);
+  return items.reduce((total, item) => {
+
+    const main = total + item.price;
+    let totalPrice = 0; // Declare totalPrice here
+
+    if (Array.isArray(item.extras) && item.extras.length > 0) {
+      totalPrice += item.extras.reduce((extraTotal, extra) => {
+        const extraPrice = Number(extra.price) || 0;
+        return extraTotal + extraPrice;
+      }, 0);
+    }
+
+    const carttotal = main + totalPrice;
+    console.log(carttotal);
+    
+    return carttotal; 
+  }, 0);
 };
+
+
+
+
+
 
 export default cartSlice.reducer;

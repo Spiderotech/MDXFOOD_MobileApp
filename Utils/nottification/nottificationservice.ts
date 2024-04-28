@@ -1,6 +1,7 @@
 import messaging from '@react-native-firebase/messaging';
 import { PermissionsAndroid, Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import PushNotification from "react-native-push-notification";
 
 
 
@@ -8,9 +9,9 @@ export async function requestUserPermission() {
     try {
 
 
-        if (Platform.OS == "android") {
+        if (Platform.OS == "android" && Platform.Version >= 33) {
 
-            const granted = PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
+            const granted =  PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
 
             if (await granted === PermissionsAndroid.RESULTS.GRANTED) {
 
@@ -61,3 +62,6 @@ const getFCMToken = async () => {
         console.error('Error generating FCM token:', error);
     }
 };
+
+
+

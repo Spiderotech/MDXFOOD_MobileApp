@@ -10,8 +10,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectCartItemsByRestaurantId ,deleteCart} from '../slices/cartSlice';
 import SkeletonLoader from '../components/SkeletonLoader'
 
-
-
 const HomeScreen = () => {
     const navigation = useNavigation()
     const [resturant, setresturant] = useState([]);
@@ -30,18 +28,6 @@ const HomeScreen = () => {
         }
         return total;
     };
-
-  
-    
-
-
-   
-    
-    
-    
-    
-
-
     useEffect(() => {
         const checkAuthentication = async () => {
             try {
@@ -112,7 +98,7 @@ const HomeScreen = () => {
             <SafeAreaView className=" bg-red-600  rounded-b-3xl ">
                 <StatusBar barStyle="dark-content" />
                 <View className="flex-row items-center flex justify-between space-x-2 px-4 pb-3  mt-4">
-                    <Text className="text-white font-semibold text-xl">MDX</Text>
+                    <Text className="text-white font-semibold text-xl">MDX FOOD</Text>
                     <View className='flex-row'>
                     {Object.keys(cartItems).every(restaurantId => cartItems[restaurantId].length === 0) ? null : (
                                 <View className='relative'>
@@ -143,37 +129,31 @@ const HomeScreen = () => {
                 <View className="flex-row items-center flex justify-between space-x-2 px-4 pb-3  mt-4 mb-10">
                     <TouchableOpacity className='flex-row flex-1 p-3 items-center rounded-full bg-white border border-gray-50' onPress={() => navigation.navigate('Search')}>
                         <MagnifyingGlassIcon size={20} color="red" />
-                        <Text className=' ml-3 flex-1' >Search</Text>
-
-
+                        <Text className=' ml-3 flex-1' >Restaurants, dishes</Text>
                     </TouchableOpacity>
-
-
-
                 </View>
-
-
-
             </SafeAreaView>
             <ScrollView>
-
-
-
                 <View className=" w-full mb-36 ">
                     <View className="flex flex-row m-4 items-center">
-                        <Text className="text-xl font-semibold">Nearby Restaurant</Text>
-
-
+                        <Text className="text-lg font-semibold">Nearby </Text>
                     </View>
 
                     <ScrollView className='mb-10' showsVerticalScrollIndicator={false}>
                         {loading ? (
                             Array.from({ length: 5 }).map((_, index) => <SkeletonLoader key={index} />)
-                        ) : (
+                        ) : resturant.length === 0 ? (
+                            <View className='flex justify-center items-center mt-40'>
+                                 <Text >No restaurants found</Text>
+
+                            </View>
+                           
+                        ):(
                             resturant.map((restaurants, index) => (
                                 <Itemcard key={index} restaurant={restaurants} />
                             ))
                         )}
+                         
                     </ScrollView>
 
 

@@ -1,6 +1,7 @@
 import React from 'react'
 import { View, Text, ScrollView, TouchableOpacity, Image } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
+import { ArrowLeftCircleIcon, QrCodeIcon, ClockIcon, MapPinIcon } from 'react-native-heroicons/solid'
 
 const itemcard = ({ restaurant }) => {
     const navigation = useNavigation()
@@ -23,7 +24,7 @@ const itemcard = ({ restaurant }) => {
             >
                 <View className="flex justify-center items-center  mt-3">
                     <TouchableOpacity
-                        style={{ width: '100%', borderRadius: 10, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5, backgroundColor: '#fff', }}
+                        style={{ width: '100%', borderRadius: 10, backgroundColor: '#fff', }}
                         onPress={handlePress}
                     >
 
@@ -33,12 +34,22 @@ const itemcard = ({ restaurant }) => {
 
 
                         />
-                        <View className="  flex flex-col mb-3 ">
-                            <Text className="mt-2 ml-2 text-xl">{restaurant.name}</Text>
+                        <View className="  flex flex-col mb-5 mt-3 ">
+                            <Text className="mt-2 ml-4 font-semibold text-xl  text-black">{restaurant.name}</Text>
 
-                            <Text className="mt-1 ml-2 font-medium text-gray-500">{restaurant.location}</Text>
+                           
 
-                            <Text className="mt-2 ml-2 font-semibold">{restaurant.email}</Text>
+                            <View className="w-full mt-1 ml-1   flex flex-row  ">
+                                <View className='ml-2 mt-2'>
+                                    <ClockIcon size={20} color='red' />
+
+                                </View>
+                                <Text className="mt-2 ml-2 font-semibold  text-md ">15-30 Minutes (preparationTime )</Text>
+
+                            </View>
+                            <Text className="mt-3 ml-4 font-medium  ">{restaurant.location}</Text>
+
+                        
 
                         </View>
 

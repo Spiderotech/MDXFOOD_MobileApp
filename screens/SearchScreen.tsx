@@ -16,13 +16,20 @@ const SearchScreen = () => {
         const fetchAllFoods = async () => {
             try {
                 const response = await axios.get('/allfoods');
-                setAllFoods(response.data.fooddata);
+                setAllFoods(response.data.fooddata); 
             } catch (error) {
                 console.error('Error fetching all foods:', error);
             }
         };
         fetchAllFoods();
     }, []);
+
+    console.log(allFoods);
+
+
+    console.log(searchResults);
+    
+    
 
 
 

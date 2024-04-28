@@ -63,19 +63,20 @@ const NewpasswordScreen = () => {
                             Change password
                         </Text>
                     </View>
-                    <View className=' flex justify-center '>
+                    
+                </View>
+                <View className=' flex justify-center '>
                         <Text className='text-white  font-medium text-center text-base p-10'>
                             Hi {email}, change your password here..
                         </Text>
                     </View>
-                </View>
             </SafeAreaView>
             <View className='flex-1 bg-white px-10 mt-10 rounded-tl-3xl '>
-                <View className=' mt-48'>
+                <View className=' mt-20'>
                     <Text className='text-gray-500 ml-4 text-base'>
                         New Password
                     </Text>
-                    <View className='flex-row flex justify-between items-center p-4 bg-gray-100 text-gray-700 rounded-2xl mb-4'>
+                    <View className='flex-row flex justify-between items-center p-2 bg-gray-100 text-gray-700 rounded-2xl mb-4'>
                         <TextInput
                             className='w-[80%]'
                             value={password}
@@ -91,7 +92,7 @@ const NewpasswordScreen = () => {
                     <Text className='text-gray-500 ml-4 text-base'>
                         Confirm Password
                     </Text>
-                    <View className='flex-row flex justify-between items-center p-4 bg-gray-100 text-gray-700 rounded-2xl mb-4'>
+                    <View className='flex-row flex justify-between items-center p-2 bg-gray-100 text-gray-700 rounded-2xl mb-4'>
                         <TextInput
                             className='w-[80%]'
                             value={confirmPassword}

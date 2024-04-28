@@ -11,17 +11,28 @@ const PhoneverificationScreen = () => {
     const route = useRoute();
     const { email } = route.params;
 
-   
-    
+
+
 
     const [phoneNumber, setPhoneNumber] = useState('');
     const [error, setError] = useState('');
+    const [showDropdown, setShowDropdown] = useState(false);
+    const [selectedCountryCode, setSelectedCountryCode] = useState("+44");
 
     const navigation = useNavigation()
 
+    const toggleDropdown = () => {
+        setShowDropdown(!showDropdown);
+    };
+
+    const selectCountryCode = (code) => {
+        setSelectedCountryCode(code);
+        toggleDropdown();
+    };
+
     const validatePhoneNumber = () => {
         const phoneRegex = /^\+(?:[0-9] ?){6,14}[0-9]$/;
-        if (!phoneRegex.test(phoneNumber)) {
+        if (!phoneRegex.test(`${selectedCountryCode}${phoneNumber}`)) {
             setError('Invalid phone number');
             return false;
         }
@@ -33,16 +44,20 @@ const PhoneverificationScreen = () => {
 
     const sendVerificationCode = async () => {
         if (!validatePhoneNumber()) return;
+        const fullPhoneNumber = `${selectedCountryCode} ${phoneNumber}`;
+
+      
+        
         try {
-           
-            const response = await axios.post('/verifyphone', { phone:phoneNumber });
+
+            const response = await axios.post('/verifyphone', { phone: fullPhoneNumber });
             console.log(response.data);
-            
-            if (response.data.status===true) {
-                const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
-                navigation.navigate('Otp', { confirmation, phoneNumber,email });
+
+            if (response.data.status === true) {
+                const confirmation = await auth().signInWithPhoneNumber(fullPhoneNumber);
+                navigation.navigate('Otp', { confirmation, fullPhoneNumber, email });
             } else {
-                setError("phone number already exsist"); 
+                setError("phone number already exsist");
             }
         } catch (error) {
             console.error('Error verifying phone number:', error);
@@ -81,9 +96,28 @@ const PhoneverificationScreen = () => {
 
             </SafeAreaView>
             <View className='flex-1 bg-white px-10   rounded-tl-3xl '>
-                <View className=' mt-48'>
+                <View className=' mt-20'>
 
                     <View className='form  space-y-2'>
+                        <Text className='text-gray-500 ml-4 text-base'>
+                            Select your country code
+                        </Text>
+                        <TouchableOpacity
+                            className='p-4 bg-gray-100 text-gray-700  rounded-2xl mb-4'
+                            onPress={toggleDropdown}
+                        >
+                            <Text>{selectedCountryCode}</Text>
+                        </TouchableOpacity>
+                        {showDropdown && (
+                            <View style={{ borderWidth: 1, borderColor: 'gray', borderRadius: 5, marginTop: 5 }}>
+                                <TouchableOpacity onPress={() => selectCountryCode('+44')} style={{ padding: 10 }}>
+                                    <Text>+44 UK</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={() => selectCountryCode('+91')} style={{ padding: 10 }}>
+                                    <Text>+91 India</Text>
+                                </TouchableOpacity>
+                            </View>
+                        )}
                         <Text className=' text-gray-500 ml-4 text-base'>
                             Phone number
 
@@ -91,8 +125,8 @@ const PhoneverificationScreen = () => {
                         <TextInput
                             className='p-4 bg-gray-100 text-gray-700 rounded-2xl mb-4'
                             value={phoneNumber}
-                            onChangeText={setPhoneNumber} 
-                            placeholder='Enter phone'
+                            onChangeText={setPhoneNumber}
+                            placeholder='Enter phonenumber'
                             keyboardType="phone-pad"
                         />
                         {error ? <Text style={{ color: 'red', fontSize: 12, marginLeft: 10 }}>{error}</Text> : null}

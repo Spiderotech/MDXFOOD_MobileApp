@@ -112,7 +112,7 @@ const OrderScreen = () => {
                     {activeView === 'pending' ? (
                         <View className=' h-auto p-2'>
                             {pendingOrders.length === 0 ? (
-                                <Text>No pending orders found</Text>
+                                <Text className=' flex justify-center items-center'>No pending orders found</Text>
                             ) : (
                                 <>
                                     {pendingOrders.map((order, index) => (
@@ -166,7 +166,7 @@ const OrderScreen = () => {
                     ) : (
                         <View className=' p-2 h-auto'>
                             {completedOrders.length === 0 ? (
-                                <Text>No completed orders found</Text>
+                                <Text className=' flex justify-center items-center'>No completed orders found</Text>
                             ) : (
                                 <>
                                     {completedOrders.map((order, index) => (

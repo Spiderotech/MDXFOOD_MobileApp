@@ -16,7 +16,7 @@ export default function WelcomeScreen() {
    
   return (
     <SafeAreaView className="h-full justify-center items-center bg-red-600">
-      <Text className="text-white font-semibold text-2xl">MDXFOOD.COM</Text>
+      <Text className="text-white font-semibold text-2xl">MDX FOOD</Text>
     </SafeAreaView>
   )
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { ArrowLeftIcon } from 'react-native-heroicons/solid'
 import { useNavigation ,useRoute} from '@react-navigation/native'
@@ -7,12 +7,28 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const UserdetailsScreen = () => {
     const route = useRoute();
-    const { phoneNumber ,email} = route.params;
+    const { fullPhoneNumber ,email} = route.params;
     const navigation=useNavigation()
     const [fullName, setFullName] = useState('');
     const [password, setPassword] = useState('');
     const [nameerror, setnameError] = useState('');
     const [passworderror, setpasswordError] = useState('');
+
+    const [fcmtoken, setFcmtoken] = useState('');
+
+    useEffect(() => {
+        const fetchToken = async () => {
+            try {
+                const token = await AsyncStorage.getItem('fcmToken');
+                console.log(token, "Token fetched from AsyncStorage");
+                setFcmtoken(token);
+            } catch (error) {
+                console.error('Error fetching FCM token:', error);
+            }
+        };
+
+        fetchToken();
+    }, []);
 
 
     const createUser = async () => {
@@ -40,12 +56,12 @@ const UserdetailsScreen = () => {
         }
     
         try {
-            const fcmtoken=AsyncStorage.getItem('fcmToken');
+           
 
             const body={
                 fullName: fullName,
                 email: email,
-                phoneNumber: phoneNumber,
+                phoneNumber: fullPhoneNumber,
                 password: password,
                 fcmtoken:fcmtoken,
                
@@ -132,7 +148,7 @@ const UserdetailsScreen = () => {
                         </Text>
                         <TextInput
                             className='p-4 bg-gray-100 text-gray-700 rounded-2xl mb-4'
-                            value={phoneNumber}
+                            value={fullPhoneNumber}
                             placeholder='Enter phone'
                             editable={false}
                         />

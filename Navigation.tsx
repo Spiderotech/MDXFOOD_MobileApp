@@ -24,6 +24,9 @@ import Forgotteemailverification from './screens/Forgotteemailverification';
 import NewpasswordScreen from './screens/NewpasswordScreen';
 import PaymentScreen from './screens/PaymentScreen';
 import ForgotteotpScreen from './screens/ForgotteotpScreen';
+import Paymentpagescreen from './screens/Paymentpagescreen';
+import AboutScreen from './screens/AboutScreen';
+import CookieScreen from './screens/CookieScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -58,6 +61,9 @@ const Navigation = () => {
         <Stack.Screen name="Changepassword" component={NewpasswordScreen} />
         <Stack.Screen name="Payment" component={PaymentScreen} />
         <Stack.Screen name="Forgotteotp" component={ForgotteotpScreen} />
+        <Stack.Screen name="Aboutpage" component={AboutScreen} />
+        <Stack.Screen name="Paymentpage" component={Paymentpagescreen} />
+        <Stack.Screen name="Cookies" component={CookieScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   )

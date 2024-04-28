@@ -13,7 +13,7 @@ export default function CartIcon({ restaurantId }) {
   if (!cartItems.length) return null;
 
   return (
-    <View className="absolute flex bottom-2 w-full z-50 mb-2">
+    <View className="absolute flex bottom-5 w-full z-50 mb-2">
       <TouchableOpacity
         className="flex-row justify-between items-center mx-5 rounded-full p-4 py-3 shadow-lg bg-red-500"
         onPress={() => navigation.navigate('Cart')}

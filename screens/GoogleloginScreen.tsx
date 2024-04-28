@@ -98,7 +98,7 @@ async function onGoogleButtonPress() {
                 </View>
                 <View className=' flex justify-center mt-5'>
                     <Text className='text-white  font-bold text-center text-3xl'>
-                        MDXFOOD.COM
+                        MDX FOOD
 
                     </Text>
                     <Text className='text-white  font-medium text-center text-lg p-10'>
@@ -110,8 +110,9 @@ async function onGoogleButtonPress() {
 
             </SafeAreaView>
             <View className='flex-1 bg-white px-8 pt-8  rounded-tl-full   '>
-                <View className=' mt-32'>
+                <View className=' mt-32 flex justify-center items-center'>
                     <GoogleSigninButton
+                  
                         size={GoogleSigninButton.Size.Wide}
                         color={GoogleSigninButton.Color.Light}
                         onPress={() => onGoogleButtonPress().then(() => console.log('Signed in with Google!'))}

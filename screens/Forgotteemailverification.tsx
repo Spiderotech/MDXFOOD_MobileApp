@@ -14,6 +14,20 @@ const Forgotteemailverification = () => {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [emailError, setEmailError] = useState('');
     const [phoneNumberError, setPhoneNumberError] = useState('');
+    const [showDropdown, setShowDropdown] = useState(false);
+    const [selectedCountryCode, setSelectedCountryCode] = useState("+44");
+
+
+    const toggleDropdown = () => {
+        setShowDropdown(!showDropdown);
+    };
+
+    const selectCountryCode = (code) => {
+        setSelectedCountryCode(code);
+        toggleDropdown();
+    };
+
+
 
 
     const handleContinue = async () => {
@@ -28,41 +42,39 @@ const Forgotteemailverification = () => {
         } else {
             setEmailError('');
         }
-        const phoneRegex = /^\+?\d{1,3}(?:\s\d{3})?\s?\d{7,}$/; 
+        const phoneRegex = /^\+(?:[0-9] ?){6,14}[0-9]$/;
         if (!phoneNumber.trim()) {
             setPhoneNumberError('Phone number is required');
             hasError = true;
-        } else if (!phoneRegex.test(phoneNumber.trim())) {
-            setPhoneNumberError('Please enter a valid phone number with optional country code (e.g., +1 1234567890)');
-            hasError = true;
-        } else if (phoneNumber.trim().indexOf(' ') === -1) {
-            setPhoneNumberError('Please enter a space after the country code');
+        } else if (!phoneRegex.test(`${selectedCountryCode}${phoneNumber}`)) {
+            setPhoneNumberError('Invalid phone number');
             hasError = true;
         } else {
             setPhoneNumberError('');
         }
 
         if (!hasError && email.trim() && phoneNumber.trim()) {
+            const fullPhoneNumber = `${selectedCountryCode} ${phoneNumber}`;
             try {
-                console.log(email,phoneNumber,"verfication");
-                
-                const response = await axios.post('/verifyemailandphone', { email: email,phone: phoneNumber });
+                console.log(email, fullPhoneNumber, "verfication");
+
+                const response = await axios.post('/verifyemailandphone', { email: email, phone: fullPhoneNumber });
                 console.log(response.data);
-                if(response.data.status === true){
+                if (response.data.status === true) {
 
-                    const number=response.data.user.phone
+                    const number = response.data.user.phone
 
-                    const confirmation = await auth().signInWithPhoneNumber(number);
-                    navigation.navigate('Forgotteotp', { confirmation,number,email });
+                    const confirmation = await auth().signInWithPhoneNumber(fullPhoneNumber);
+                    navigation.navigate('Forgotteotp', { confirmation, number, email });
 
-                }else{
+                } else {
                     setPhoneNumberError(response.data.message);
 
                 }
 
 
             } catch (error) {
-                setPhoneNumberError(error)
+                setPhoneNumberError("Invalid phone number")
 
             }
         }
@@ -91,7 +103,7 @@ const Forgotteemailverification = () => {
                 </View>
             </SafeAreaView>
             <View className='flex-1 bg-white px-10   mt-10 rounded-tl-3xl '>
-                <View className=' mt-36'>
+                <View className=' mt-20'>
                     <View className='form  space-y-2'>
                         <Text className=' text-gray-500 ml-4 text-base'>
                             Email address
@@ -104,6 +116,25 @@ const Forgotteemailverification = () => {
                             editable={false}
                         />
                         {emailError ? <Text style={{ color: 'red', fontSize: 12, marginLeft: 10 }}>{emailError}</Text> : null}
+                        <Text className='text-gray-500 ml-4 text-base'>
+                            Select your country code
+                        </Text>
+                        <TouchableOpacity
+                            className='p-4 bg-gray-100 text-gray-700  rounded-2xl mb-4'
+                            onPress={toggleDropdown}
+                        >
+                            <Text>{selectedCountryCode}</Text>
+                        </TouchableOpacity>
+                        {showDropdown && (
+                            <View style={{ borderWidth: 1, borderColor: 'gray', borderRadius: 5, marginTop: 5 }}>
+                                <TouchableOpacity onPress={() => selectCountryCode('+44')} style={{ padding: 10 }}>
+                                    <Text>+44 UK</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={() => selectCountryCode('+91')} style={{ padding: 10 }}>
+                                    <Text>+91 India</Text>
+                                </TouchableOpacity>
+                            </View>
+                        )}
                         <Text className=' text-gray-500 ml-4 text-base'>
                             Phone number
                         </Text>

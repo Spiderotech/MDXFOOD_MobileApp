@@ -10,7 +10,7 @@ const OtpverificationScreen = () => {
     const [code, setCode] = useState('');
     const [error, setError] = useState('');
     const [timer, setTimer] = useState(60);
-    const { confirmation, phoneNumber ,email} = route.params;
+    const { confirmation, fullPhoneNumber ,email} = route.params;
 
 
     useEffect(() => {
@@ -25,7 +25,7 @@ const OtpverificationScreen = () => {
     async function confirmCode() {
         try {
             await confirmation.confirm(code);
-            navigation.navigate('Create',{phoneNumber,email })
+            navigation.navigate('Create',{fullPhoneNumber,email })
 
         } catch (error) {
             setError('Invalid code. Please try again.');
@@ -35,11 +35,12 @@ const OtpverificationScreen = () => {
 
     async function resendCode() {
         try {
-            await auth().signInWithPhoneNumber(phoneNumber);
-            setTimer(60); 
+            await auth().signInWithPhoneNumber(fullPhoneNumber);
             console.log('Resending code...');
+            setError('Resending code...');
         } catch (error) {
             console.error('Error resending code:', error);
+            setError('Error resending code');
         }
     }
 
@@ -65,7 +66,7 @@ const OtpverificationScreen = () => {
 
 
                     <Text className='text-white  font-medium text-center text-base p-10'>
-                        We've sent your 6-digit code to {phoneNumber}
+                        We've sent your 6-digit code to {fullPhoneNumber}
 
                     </Text>
 
@@ -103,17 +104,14 @@ const OtpverificationScreen = () => {
 
                     </TouchableOpacity>
                     <View className='flex justify-between flex-row'>
-                    <TouchableOpacity className='flex items-start mb-5 mt-5' onPress={() => console.log('Resend code')} disabled={timer !== 0} >
+                    <TouchableOpacity className='flex items-start mb-5 mt-5' onPress={() => resendCode()} >
                         <Text className=' text-red-600 text-base text-center ml-4'>
                             Resend code
 
                         </Text>
 
                     </TouchableOpacity>
-                    {/* <Text className=' text-red-600 mt-5 text-base text-center ml-4'>
-                    {timer} seconds
-
-                        </Text> */}
+                   
 
                     </View>
                     
